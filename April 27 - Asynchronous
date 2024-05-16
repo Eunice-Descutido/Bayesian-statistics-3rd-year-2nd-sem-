@@ -1,0 +1,33 @@
+# Collaboration of Arevalo, Asuncion, Descutido, and Tebelin
+
+import numpy as np
+import pymc3 as pm
+import matplotlib.pyplot as plt
+
+# Generate some synthetic data
+np.random.seed(42)
+X = np.linspace(0, 10, 100)
+true_slope = 2
+true_intercept = 5
+y = true_slope * X + true_intercept + np.random.normal(0, 1, 100)
+
+# Define the Bayesian linear regression model
+with pm.Model() as linear_model:
+    # Priors
+    slope = pm.Normal('slope', mu=0, sigma=10)
+    intercept = pm.Normal('intercept', mu=0, sigma=10)
+    sigma = pm.HalfNormal('sigma', sigma=1)
+
+    # Expected value of outcome
+    mu = slope * X + intercept
+
+    # Likelihood (sampling distribution) of observations
+    Y_obs = pm.Normal('Y_obs', mu=mu, sigma=sigma, observed=y)
+
+# Fit the model using Markov Chain Monte Carlo (MCMC)
+with linear_model:
+    trace = pm.sample(2000, tune=1000, cores=1)
+
+# Plot the posterior distributions
+pm.traceplot(trace)
+plt.show()
