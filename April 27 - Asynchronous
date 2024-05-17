@@ -1,4 +1,9 @@
-# Collaboration of Arevalo, Asuncion, Descutido, and Tebelin
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Apr 29 11:42:04 2024
+
+@author: Eunice C. Descutido
+"""
 
 import numpy as np
 import pymc3 as pm
